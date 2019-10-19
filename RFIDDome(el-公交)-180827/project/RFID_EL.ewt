@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project>
+  <fileVersion>2</fileVersion>
+  <configuration>
+    <name>Release</name>
+    <toolchain>
+      <name>8051</name>
+    </toolchain>
+    <debug>1</debug>
+  </configuration>
+  <group>
+    <name>info</name>
+    <file>
+      <name>$PROJ_DIR$\source\info.c</name>
+    </file>
+  </group>
+  <file>
+    <name>$PROJ_DIR$\source\main.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\readme.txt</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\source\sys_init.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\source\sys_init.h</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\source\RFID_EL.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\source\RFID_EL.h</name>
+  </file>
+</project>
