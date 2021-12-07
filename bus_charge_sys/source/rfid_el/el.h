@@ -14,14 +14,14 @@
 extern u16 sysPrice;
 
 /*********************************************************************************************
-* 名称：xor_count
+* 名称：xor_calculate
 * 功能：异或校验计算
 * 参数：无
 * 返回：无
 * 修改：
 * 注释：
 *********************************************************************************************/
-unsigned char xor_count(unsigned char* array,unsigned char s1,unsigned char s2);
+unsigned char xor_calculate(unsigned char* data,unsigned char begin,unsigned char end);
 
 
 /*********************************************************************************************

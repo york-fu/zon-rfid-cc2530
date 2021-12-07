@@ -225,7 +225,7 @@ void etc_userinfo(void)
 			{
 				sendCorrect[i+15] = etcData[i];						//获取余额
 			}
-			sendCorrect[17] = xor_count(sendCorrect,1,16);			//计算校验
+			sendCorrect[17] = xor_calculate(sendCorrect,1,16);			//计算校验
 			Uart1_Send_LenString(sendCorrect,18);					//操作成功
 		}
 	}	
@@ -266,7 +266,7 @@ void etc_topUp(u8* etcData)
         /*读EPC，写余额*/
         if((mcuRead_etcUII(etcEPC)) && (mcuWrite_Etc2Byte(etcPassword,etcEPC,0x03,0x0000,etcData)))
         {				
-            sendCorrect[3] = xor_count(sendCorrect,1,2);			//计算校验
+            sendCorrect[3] = xor_calculate(sendCorrect,1,2);			//计算校验
             Uart1_Send_LenString(sendCorrect,4);					//返回成功信息
             CorrectFlag = 1;                                        //标记成功
             break;
@@ -275,7 +275,7 @@ void etc_topUp(u8* etcData)
     
 	if(!CorrectFlag)
 	{
-		readError[3] = xor_count(readError,1,2);				//计算校验
+		readError[3] = xor_calculate(readError,1,2);				//计算校验
 		Uart1_Send_LenString(readError,4);						//返回失败信息
 	}
 }
@@ -353,7 +353,7 @@ void pc_etc()
 	{
 		if(U1RX_Buf[0]==0xfa)									//确认数据头
 		{		
-			check_temp = xor_count(U1RX_Buf,1,(UART1_RX_STA&0x3F)-2);//异或校验
+			check_temp = xor_calculate(U1RX_Buf,1,(UART1_RX_STA&0x3F)-2);//异或校验
 			
 			if(check_temp==U1RX_Buf[(UART1_RX_STA&0x3F)-1])		//校验正确
 			{

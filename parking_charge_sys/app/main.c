@@ -29,7 +29,7 @@ void main(void)
 	uart0_init(115200);											//UART0初始化
 	uart1_init(115200);											//UART1初始化
 	led_init();                                                 //LED初始化
-    sticks_ioInit();                                            //栏杆io初始化
+    gate_ioInit();                                            //栏杆io初始化
     time1Int_init();                                            //定时器中断初始化
     
 	while(1)

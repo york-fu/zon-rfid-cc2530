@@ -15,21 +15,21 @@
 
 
 /*********************************************************************************************
-* 名称：xor_count
+* 名称：xor_calculate
 * 功能：异或校验计算
 * 参数：无
 * 返回：无
 * 修改：
 * 注释：
 *********************************************************************************************/
-unsigned char xor_count(unsigned char* array,unsigned char s1,unsigned char s2)
+unsigned char xor_calculate(unsigned char* data,unsigned char begin,unsigned char end)
 {
 	unsigned char i,check_temp;
 	
-	check_temp = array[s1];
-	for(i = s1+1;i<(s2+1);i++)
+	check_temp = data[begin];
+	for(i = begin+1;i<(end+1);i++)
 	{	
-		check_temp ^= array[i];									//异或校验
+		check_temp ^= data[i];									//异或校验
 	}
 	
 	return check_temp;
@@ -312,7 +312,7 @@ u8 reported_etcInfo(void)
 			{
 				sendCorrect[i+15] = etcData[i];						//获取余额
 			}
-			sendCorrect[17] = xor_count(sendCorrect,1,16);			//计算校验
+			sendCorrect[17] = xor_calculate(sendCorrect,1,16);			//计算校验
 			Uart1_Send_LenString(sendCorrect,18);					//操作成功
             
             return 1;
@@ -361,7 +361,7 @@ u8 reported_etcInfoV2(u8* etcEPC)
             sendCorrect[i+15] = etcData[i];						//获取余额
         }
         
-        sendCorrect[17] = xor_count(sendCorrect,1,16);			//计算校验
+        sendCorrect[17] = xor_calculate(sendCorrect,1,16);			//计算校验
         Uart1_Send_LenString(sendCorrect,18);					//操作成功
         ledFlickerSet(2);
         
@@ -417,14 +417,14 @@ void update_etcData(u8* etcData)
 
 
 /*********************************************************************************************
-* 名称：sticks_ioInit
+* 名称：gate_ioInit
 * 功能：栏杆io初始化，P00，P01
 * 参数：无
 * 返回：无
 * 修改：
 * 注释：
 *********************************************************************************************/
-void sticks_ioInit()
+void gate_ioInit()
 {
 	P0SEL &= ~(1<<0);											//通用io
 	P0DIR |= (1<<0);											//设置为输出
@@ -436,14 +436,14 @@ void sticks_ioInit()
 
 
 /*********************************************************************************************
-* 名称：sticks_up
+* 名称：gate_up
 * 功能：抬杆
 * 参数：无
 * 返回：无
 * 修改：
 * 注释：
 *********************************************************************************************/
-void sticks_up()
+void gate_up()
 {
 	P0_0 = 0;
 	P0_1 = 1;
@@ -453,14 +453,14 @@ void sticks_up()
 }
 
 /*********************************************************************************************
-* 名称：sticks_ioInit
+* 名称：gate_ioInit
 * 功能：闭杆
 * 参数：无
 * 返回：无
 * 修改：
 * 注释：
 *********************************************************************************************/
-void sticks_down()
+void gate_down()
 {
 	P0_0 = 1;
 	P0_1 = 0;
@@ -487,7 +487,7 @@ void pc_eh()
 	{
 		if(U1RX_Buf[0]==0xfa)									//确认数据头
 		{		
-			check_temp = xor_count(U1RX_Buf,1,(UART1_RX_STA&0x7F)-2);//异或校验
+			check_temp = xor_calculate(U1RX_Buf,1,(UART1_RX_STA&0x7F)-2);//异或校验
 			if(check_temp==U1RX_Buf[(UART1_RX_STA&0x7F)-1])		//校验正确
 			{
 				switch(U1RX_Buf[2])
@@ -502,12 +502,12 @@ void pc_eh()
                     
                     //抬杆操作
                     case 0xe3:
-                        sticks_up();
+                        gate_up();
                         break;
                     
                     //闭杆操作
                     case 0xe4:	
-                        sticks_down();
+                        gate_down();
                         break;  
 				}
 			}
